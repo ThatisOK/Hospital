@@ -29,7 +29,7 @@ public class PrescriptionServlet extends HttpServlet {
      */
     public PrescriptionServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
