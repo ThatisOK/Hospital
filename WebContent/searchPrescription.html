@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="l" content="width=device-width, initial-scale=1">
+<title>搜索处方</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/flat-ui.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="static/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/datepicker.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="static/css/base.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="static/css/clean.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="static/css/prettify.css" />
+<script type="text/javascript" src="static/js/prettify.js"></script>
+<script type="text/javascript" src="static/js/application.js"></script>
+<script type="text/javascript" src="static/js/jqPaginator.js"></script>
+<script src="static/js/flat-ui.min.js"></script>
+<style type="text/css">
+.form-inline {
+	margin: 0 0 0 20%;
+}
+
+form *{
+	box-sizing: content-box;
+	moz-box-sizing: border-box;
+	webkit-box-sizing: border-box;
+}
+
+#exampleInputName2{
+	height:14px;
+	position: relative;
+    top: 29px;
+    left: -20px;
+    box-sizing: content-box;
+}
+
+#date-label{
+	position: relative;
+	left:-10px;
+	top:45px;
+}
+#date-range{
+	position: relative;
+	left:40px;
+	top:6px;
+	
+}
+
+.btn-sm{
+	left:90px;
+	top: 24px;
+	position: relative;
+}
+
+.select{
+	position:relative;
+	left:40px;
+	top:13px;
+	box-sizing: content-box;
+}
+#select-label{
+	position: relative;
+	top:55px;
+	
+}
+
+#input-label{
+	position: relative;
+	left:-20px;
+	top:30px;
+	
+}
+
+#container{
+	position: relative;
+    left: -70px;
+}
+
+#table{
+	position: relative;
+    left: 70px;
+    top:30px;
+}
+
+#prescriptionTable{
+	text-align: center;
+}
+
+.modal-button{
+	position: relative;
+    left: 360px;
+    top:-10px;
+}
+
+.demo{
+	position:relative;
+	left:500px;
+	top:10px;
+	
+}
+
+#demo2{
+	box-sizing: border-box;
+}
+
+</style>
+
+<style type="text/css">
+/* Style the calendar custom widget */
+#date-range {
+	position: relative;
+}
+
+#date-range-field {
+	width: 290px;
+	height: 26px;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#date-range-field a {
+	color: #B2B2B2;
+	background-color: #F7F7F7;
+	text-align: center;
+	display: block;
+	position: absolute;
+	width: 26px;
+	height: 23px;
+	top: 0;
+	right: 0;
+	text-decoration: none;
+	padding-top: 6px;
+	border-radius: 0 5px 5px 0;
+}
+
+#date-range-field span {
+	font-size: 12px;
+	font-weight: bold;
+	color: #404040;
+	position: relative;
+	top: 0;
+	height: 26px;
+	line-height: 26px;
+	left: 5px;
+	width: 250px;
+	text-align: center;
+}
+
+#datepicker-calendar {
+	position: absolute;
+	top: 27px;
+	left: 0;
+	overflow: hidden;
+	width: 335px;
+	height: 153px;
+	background-color: #F7F7F7;
+	border: 1px solid #CCCCCC;
+	border-radius: 0 5px 5px 5px;
+	display: none;
+	padding: 10px 0 0 10px;
+}
+
+/* Remove default border from the custom widget since we're adding our own.  TBD: rework the dropdown calendar to use the default borders */
+#datepicker-calendar div.datepicker {
+	background-color: transparent;
+	border: none;
+	border-radius: 0;
+	padding: 0;
+}
+</style>
+
+<script type="text/javascript">
+      
+      $(document).ready(function() {
+        
+        // pretty-print the source
+        //prettyPrint();
+        
+        var to = new Date();
+		var from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 14);
+	
+		$('#datepicker-calendar').DatePicker({
+		  inline: true,
+		  date: [from, to],
+		  calendars: 2,
+		  mode: 'range',
+		  current: new Date(to.getFullYear(), to.getMonth() - 1, 1),
+		  onChange: function(dates,el) {
+		    // update the range display
+		    $('#date-range-field span').text(
+		      dates[0].getFullYear()+'-'+(parseInt(dates[0].getMonth()+1).toString())+'-'+dates[0].getDate()+'至'+dates[1].getFullYear()+'-'+(parseInt(dates[1].getMonth()+1).toString())+'-'+dates[1].getDate());
+		  }
+		});
+		$('#date-range-field span').text(from.getFullYear()+'-'+(parseInt(from.getMonth()+1).toString())+'-'+from.getDate()+'至'+to.getFullYear()+'-'+(parseInt(to.getMonth()+1).toString())+'-'+to.getDate());
+        
+ 
+		$('#date-range-field').bind('click', function(){
+		      $('#datepicker-calendar').toggle();
+		      if($('#date-range-field a').text().charCodeAt(0) == 9660) {
+		        // switch to up-arrow
+		        $('#date-range-field a').html('&#9650;');
+		        $('#date-range-field').css({borderBottomLeftRadius:0, borderBottomRightRadius:0});
+		        $('#date-range-field a').css({borderBottomRightRadius:0});
+		        $('#table').css('top','160px');
+		      	$('.demo').css('top','130px');
+		      } else {
+		        // switch to down-arrow
+		        
+		      	$('#table').css('top','30px');
+				$('.demo').css('top','10px');
+		        $('#date-range-field a').html('&#9660;');
+		        $('#date-range-field').css({borderBottomLeftRadius:5, borderBottomRightRadius:5});
+		        $('#date-range-field a').css({borderBottomRightRadius:5});
+		      }
+		      return false;
+		});
+        
+		$('html').click(function() {
+		      if($('#datepicker-calendar').is(":visible")) {
+		        $('#datepicker-calendar').hide();
+		        $('#date-range-field a').html('&#9660;');
+		        $('#date-range-field').css({borderBottomLeftRadius:5, borderBottomRightRadius:5});
+		        $('#date-range-field a').css({borderBottomRightRadius:5});
+		        $('#table').css('top','30px');
+				$('.demo').css('top','10px');
+		      }
+		    });
+		
+		$('#datepicker-calendar').click(function(event){
+		      event.stopPropagation();
+		   });
+      });
+    </script>
+</head>
+<body>
+	<div id="container">
+	<form class="form-inline">
+		<div class="form-group">
+			<label for="select" id="select-label">选项</label> 
+			<select id="select" data-toggle="select" class="form-control select select-primary mrs mbm">
+		        <option id="m">病人</option>
+		        <option id="d">日期</option>
+		        <option id="md">病人和日期</option>
+		    </select>
+		</div>
+		<div class="form-group">
+			<label for="exampleInputName2" id="input-label">病人</label> 
+			<input type="text" class="form-control" id="exampleInputName2">
+		</div>
+		<div class="form-group">
+			<label for="date-range" id="date-label">日期</label>
+			<div id="date-range">
+				<div id="date-range-field">
+					<span></span> <a href="#">&#9660;</a>
+				</div>
+				<div id="datepicker-calendar"></div>
+			</div>
+		</div>
+		<button type="button" class="btn btn-primary btn-sm" >搜索</button>
+	</form>
+	<div id="table">
+		<table class="table table-bordered" id="prescriptionTable">
+			<tr>
+				<td>姓名</td>
+				<td>性别</td>
+				<td>年龄</td>
+				<td>诊断</td>
+				<td>过敏史</td>
+				<td>总价(元)</td>
+				<td>时间</td>
+				<td>地址</td>
+				<td>医生</td>
+				<td>药品</td>
+				<td>删除</td>
+			</tr>
+		</table>
+	</div>
+	<div class="demo customBootstrap">
+       	<!-- <p id="demo2-text"></p> -->
+    	<ul id="demo2" class="pagination"></ul>
+    </div>
+
+
+	</div>
+	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	     	<table class="table table-bordered" id="medicinetable">
+					<tr id="header">
+						<td>药品</td>
+						<td>厂家</td>
+						<td>规格</td>
+						<td>单价</td>
+						<td>数量</td>
+					</tr>
+			</table>
+			<div class="modal-button">
+				<button type="button" class="btn btn-primary" id="confirm" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-primary" id="cancel" data-dismiss="modal">取消</button>
+			</div>
+	    </div>
+	  </div>
+	</div>
+
+	<script >
+		
+		$(".btn-primary").click(function(){
+			var totalCounts = 0;
+			$('#prescriptionTable').find('tr').first().nextAll().remove();
+			var option = $("#select2-chosen-1").text();
+			var patient = $("#exampleInputName2").val();
+			var date = $("#date-range-field").children().first().html();
+			if(option=="病人"){
+				totalCounts = search(patient,"no", "1", 1, 6);
+			}else if(option=="日期"){
+				totalCounts = search("no",date, "2",1, 6);
+			}else if(option=="病人和日期"){
+				totalCounts = search(patient, date, "3", 1, 6);
+			}
+			$("#demo2").jqPaginator({
+				totalCounts: totalCounts,
+				pageSize: 6,
+		        visiblePages: 6,
+		        currentPage: 1,
+		        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+		        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
+		        next: '<li class="next"><a href="javascript:void(0);">下一页<i class="arrow arrow3"><\/i><\/a><\/li>',
+		        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+		       	page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+		        onPageChange: function (n) {
+		        	if(option=="病人"){
+						totalCounts = search(patient,"no", "1", n, 6);
+					}else if(option=="日期"){
+						totalCounts = search("no",date, "2",n, 6);
+					}else if(option=="病人和日期"){
+						totalCounts = search(patient, date, "3", n, 6);
+					}
+		        	}
+		        });
+		});
+		
+		function search(patient, date, type, page, pageSize){
+			var totalCounts = 0;
+			$.ajax({
+				url : "PrescriptionServlet",
+				data :{
+					type:type,
+					patient:patient,
+					date:date,
+					page:page,
+					pageSize, pageSize,
+					operation:"search"
+				},
+				type:"post",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					$('#prescriptionTable').find('tr').first().nextAll().remove();
+					totalCounts = data.totalCounts;
+					var list = data.list;
+					$.each(list, function(i, n){
+						var tr = $('#prescriptionTable').find('tr').last();
+						tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></tr>");
+						});
+					return totalCounts;
+				}
+			});
+			return totalCounts;
+			
+		}
+		
+		function getTotalCounts(patient, date, type){
+			var totalCounts = 0;
+			$.ajax({
+				url : "PrescriptionServlet",
+				data :{
+					type:type,
+					patient:patient,
+					date:date,
+					operation:"search"
+				},
+				type:"post",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					totalCounts = data.totalCounts;
+				}
+			});
+			return totalCounts;
+			
+		}
+		
+		$('#table').on('click', '.medicine', function() {
+			$('#medicinetable').find('tr').first().nextAll().remove();
+			var id = $(this).attr("id");
+			$.ajax({
+				url : "PrescriptionServlet",
+				data : {
+					id : id,
+					operation :"prescriptionInfo" 
+				},
+				type : "post",
+				dataType : "json",
+				success : function(data){
+					$.each(data, function(i, n){
+						var tr = $('#medicinetable').find('tr').last();
+						tr.after("<tr><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['price']  + "</td><td>" +n['num']+ " </td></tr>");
+						});
+				}
+			})
+			$('.bs-example-modal-lg').modal("show");
+		});
+		
+		$('#table').on('click', '.delete', function() {
+			var id = $(this).attr("id");
+			if(confirm("确认删除？")){
+				$(this).parent().parent().remove();
+				$.ajax({
+					url : "PrescriptionServlet",
+					data : {
+						id : id,
+						operation :"delete" 
+					},
+					type : "post",
+					dataType : "json",
+					success : function(data){
+						alert(data.errMsg);
+					}
+				})
+			}
+		});
+		/* var totalCounts = 0;
+		$(document).ready(function(){
+			$.ajax({
+				url:"PrescriptionServlet",
+				data:{
+					operation:"getTotalCounts"
+				},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					totalCounts = data.totalCounts;
+					$("#demo2").jqPaginator({
+						totalCounts: totalCounts,
+						pageSize: 6,
+				        visiblePages: 6,
+				        currentPage: 1,
+				        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+				        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
+				        next: '<li class="next"><a href="javascript:void(0);">下一页<i class="arrow arrow3"><\/i><\/a><\/li>',
+				        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+				       	page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+				        onPageChange: function (n) {
+				        		pagingQuery(n, 6);
+				        	}
+				        });
+				}
+			});
+		}) */
+			　
+		
+
+	</script>
+</body>
+</html>

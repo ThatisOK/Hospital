@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="l" content="width=device-width, initial-scale=1">
+<title>添加药品</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/flat-ui.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="static/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="static/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+.form-horizontal {
+	width: 300px;
+	margin: 10% 0 0 30%;
+}
+
+.btn-primary {
+	width: 220px;
+}
+</style>
+
+</head>
+<body>
+	
+
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">名称</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="name">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">首字母</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="acronym">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">品牌</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="brand">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">规格</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="standard">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">单价</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="price">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-10">
+				<button type="submit" class="btn btn-primary" id="confirm">确定</button>
+			</div>
+		</div>
+	</form>
+	
+	<script>
+		$("#confirm").click(function(){
+			var name = $("#name").val();
+			var acronym = $("#acronym").val().toUpperCase();
+			var brand = $("#brand").val();
+			var standard = $("#standard").val();
+			var price = $("#price").val();
+			if(name != "" && acronym != "" && brand != "" && standard !="" && price != ""){
+				$.ajax({
+					url : "MedicineServlet",
+					data :{
+						name : name,
+						acronym : acronym,
+						brand : brand,
+						standard : standard,
+						price : price,
+						operation : "add"
+					},
+					type : "post",
+					dataType : "json",
+					async:false,
+					success : function(data){
+						alert("添加成功");
+					}
+					
+				})
+			}else{
+				alert("请输入正确信息");
+			}
+			
+		})
+		
+		$("#price").keyup(function(){
+		    CheckNum($(this));
+		}).bind("paste", function () {
+		    CheckNum($(this));
+		}).css("ime-mode", "disabled");
+
+		function CheckNum(obj) { //验证整数
+		    obj = jQuery(obj);
+		    var tmptxt = obj.val().replace(/[^0123456789.]|^/g, '');  //利用正则表达式
+		    var maxNum = jQuery.trim(obj.attr("maxNum")); //最大值
+		    if (maxNum) {
+		        if (parseInt(maxNum) >= parseInt(tmptxt)) {
+		            obj.val(tmptxt);
+		        }
+		        else {
+		        	alert("请输入正确的价格");
+		            obj.val("");
+		        }
+		        return;
+		    }
+		    obj.val(tmptxt);
+		}
+	</script>
+
+</body>
+</html>

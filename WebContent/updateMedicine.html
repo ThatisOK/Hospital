@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="l" content="width=device-width, initial-scale=1">
+<title>更新药品</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/flat-ui.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="static/js/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="static/js/bootstrap.min.js"></script>
+<style>
+.form-group{
+	margin : 5% 0 0 35%;
+	width:300px;
+}
+</style>
+</head>
+<body>
+
+	<div class="form-group">
+		<div class="input-group">
+			<input class="form-control" id="navbarInput-01" type="search"
+				placeholder="搜索需要更新的药品"> <span class="input-group-btn">
+				<button type="submit" class="btn" id="search">
+					<span class="fui-search"></span>
+				</button>
+			</span>
+		</div>
+	</div>
+	
+	<div id="table">
+		<table class="table table-bordered" id="medicineTable" style="text-align:center">
+			<tr>
+				<td>名称</td>
+				<td>首字母</td>
+				<td>品牌</td>
+				<td>规格</td>
+				<td>价格(元)</td>
+				<td>更新</td>
+			</tr>
+		</table>
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      	<form class="form-horizontal">
+	      		<div class="form-group" style="display:none">
+					<label for="inputEmail3" class="col-sm-3 control-label">id</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="id" val="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">名称</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">首字母</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="acronym">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">品牌</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="brand">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">规格</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="standard">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">单价</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="price">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-10">
+						<button type="submit" class="btn btn-primary" id="confirm">确定</button>
+						<button type="submit" class="btn btn-primary" id="cancle">取消</button>
+					</div>
+				</div>
+			</form>
+	    </div>
+	  </div>
+	</div>
+	<script>
+		$("#search").click(function(){
+			$('#medicineTable').find('tr').first().nextAll().remove();
+			var acronym = $("#navbarInput-01").val();
+			if(acronym != ""){
+				$.ajax({
+					url : "MedicineServlet",
+					data : {
+						acronym : acronym,
+						operation : "search-update"
+					},
+					type : "post",
+					dataType : "json",
+					success : function(data){
+						if(data.error == "error"){
+							alert("没有该药品");
+						}else{
+							$.each(data, function(i, n){
+								var tr = $('#medicineTable').find('tr').last();
+								tr.after("<tr><td>"+ n['name'] + "</td><td>"+ n['acronym'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['price']  + " </td><td><button class='btn btn-link' data-target='.bs-example-modal-sm' id="+n['id']+">更新</button></td></tr>");
+								});
+						}
+						
+					}
+				})
+			}else{
+				alert("请输入药品");
+			}
+		});
+		
+		$('#medicineTable').on('click', '.btn-link', function(){
+			//alert($(this).parent().html());
+			var id = $(this).attr('id');
+			$.ajax({
+				url : "MedicineServlet",
+				data : {
+					id : id,
+					operation : "search-medicine"
+				},
+				type : "post",
+				dataType : "json",
+				success : function(data){
+					$("#id").attr("val", id);
+					$("#name").val(data[0].name);
+					$("#acronym").val(data[0].acronym);
+					$("#brand").val(data[0].brand);
+					$("#price").val(data[0].price);
+					$("#standard").val(data[0].standard);
+					$('.bs-example-modal-sm').modal("show");	
+					
+				}
+			});
+			
+			
+		});
+		
+		$("#confirm").click(function(){
+			var id = $("#id").attr("val");
+			var name = $("#name").val();
+			var acronym = $("#acronym").val().toUpperCase();
+			var brand = $("#brand").val();
+			var standard = $("#standard").val();
+			var price = $("#price").val();
+			if(name != "" && acronym != "" && brand != "" && standard !="" && price != ""){
+				$.ajax({
+					url : "MedicineServlet",
+					data :{
+						id : id,
+						name : name,
+						acronym : acronym,
+						brand : brand,
+						standard : standard,
+						price : price,
+						operation : "update"
+					},
+					type : "post",
+					dataType : "json",
+					async:false,
+					success : function(data){
+						alert(data.success);
+					}
+					
+				})
+			}else{
+				alert("请输入正确信息");
+			}
+			
+		})
+		
+	</script>
+
+</body>
+</html>

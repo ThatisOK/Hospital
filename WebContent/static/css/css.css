@@ -1,0 +1,51 @@
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.num-box,
+.det-msg {
+    height: 30px;
+    line-height: 28px;
+    margin: 0 10px 0 0;
+}
+
+.num-box {
+    border: 1px solid #b3b3b3;
+    width: 80px;
+    text-align: center;
+}
+
+.num-box a {
+    display: block;
+    width: 24px;
+    height: 28px;
+    cursor: pointer;
+    background: #efefef;
+}
+
+.num-cut {
+    border-right: 1px solid #b3b3b3;
+}
+
+.num-add {
+    border-left: 1px solid #b3b3b3;
+}
+
+.num-number {
+    font-size: 16px;
+}
+
+a.num-lose {
+    color: #aaa;
+    background: #fefefe;
+    cursor: not-allowed;
+}
