@@ -5,7 +5,7 @@ public class Prescription {
 	private String id;
 	private String name;
 	private String sex;
-	private int age;
+	private double age;
 	private String dianose;
 	private int userid;
 	private String time;
@@ -13,7 +13,7 @@ public class Prescription {
 	private String allergic;
 	private String address;
 	private double sum;
-	public Prescription(String id, String name, String sex, int age, String dianose, int userid, String allergic,String address, double sum){
+	public Prescription(String id, String name, String sex, double age, String dianose, int userid, String allergic,String address, double sum){
 		this.id = id;
 		this.name = name;
 		this.sex = sex;
@@ -26,7 +26,7 @@ public class Prescription {
 	}
 	
 	
-	public Prescription(String id, String name, String sex, int age, String dianose, String time, String doctor, String allergic, String address, double sum){
+	public Prescription(String id, String name, String sex, double age, String dianose, String time, String doctor, String allergic, String address, double sum){
 		this.id = id;
 		this.name = name;
 		this.sex = sex;
@@ -61,10 +61,10 @@ public class Prescription {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public int getAge() {
+	public double getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(double age) {
 		this.age = age;
 	}
 	public String getDianose() {

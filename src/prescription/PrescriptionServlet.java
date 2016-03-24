@@ -55,7 +55,7 @@ public class PrescriptionServlet extends HttpServlet {
 			SerialNumber id = new FileEveryDaySerialNumber(4, "EveryDaySerialNumber.dat");
 			String name = request.getParameter("name");
 			String sex = request.getParameter("sex");
-			int age = Integer.valueOf(request.getParameter("age"));
+			double age = Double.valueOf(request.getParameter("age"));
 			String diagnose = request.getParameter("diagnose");
 			String userid = request.getParameter("userid");
 			String allergic = request.getParameter("allergic");
