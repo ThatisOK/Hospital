@@ -140,6 +140,10 @@ body{
 .select2-display-none{
 	width: 100px !important;
 }
+
+.table > tbody > tr > td{
+    vertical-align: middle;
+}
 </style>
 
 <title>新处方</title>
