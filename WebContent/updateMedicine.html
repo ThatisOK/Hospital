@@ -43,7 +43,8 @@
 				<td>首字母</td>
 				<td>品牌</td>
 				<td>规格</td>
-				<td>价格(元)</td>
+				<td>进货价(元)</td>
+				<td>零售价(元)</td>
 				<td>更新</td>
 			</tr>
 		</table>
@@ -83,9 +84,15 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputEmail3" class="col-sm-3 control-label">单价</label>
+					<label for="inputEmail3" class="col-sm-3 control-label">进货价</label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="price">
+						<input type="text" class="form-control" id="purchase_price">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-3 control-label">零售价</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="retail_price">
 					</div>
 				</div>
 				<div class="form-group">
@@ -117,7 +124,7 @@
 						}else{
 							$.each(data, function(i, n){
 								var tr = $('#medicineTable').find('tr').last();
-								tr.after("<tr><td>"+ n['name'] + "</td><td>"+ n['acronym'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['price']  + " </td><td><button class='btn btn-link' data-target='.bs-example-modal-sm' id="+n['id']+">更新</button></td></tr>");
+								tr.after("<tr><td>"+ n['name'] + "</td><td>"+ n['acronym'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['purchasePrice']  + " </td><td>" +n['retailPrice']  + " </td><td><button class='btn btn-link' data-target='.bs-example-modal-sm' id="+n['id']+">更新</button></td></tr>");
 								});
 						}
 						
@@ -144,7 +151,8 @@
 					$("#name").val(data[0].name);
 					$("#acronym").val(data[0].acronym);
 					$("#brand").val(data[0].brand);
-					$("#price").val(data[0].price);
+					$("#purchase_price").val(data[0].purchasePrice);
+					$("#retail_price").val(data[0].retailPrice);
 					$("#standard").val(data[0].standard);
 					$('.bs-example-modal-sm').modal("show");	
 					
@@ -160,27 +168,39 @@
 			var acronym = $("#acronym").val().toUpperCase();
 			var brand = $("#brand").val();
 			var standard = $("#standard").val();
-			var price = $("#price").val();
-			if(name != "" && acronym != "" && brand != "" && standard !="" && price != ""){
-				$.ajax({
-					url : "MedicineServlet",
-					data :{
-						id : id,
-						name : name,
-						acronym : acronym,
-						brand : brand,
-						standard : standard,
-						price : price,
-						operation : "update"
-					},
-					type : "post",
-					dataType : "json",
-					async:false,
-					success : function(data){
-						alert(data.success);
+			var purchase_price = $("#purchase_price").val();
+			var retail_price = $("#retail_price").val();
+			if(name != "" && acronym != "" && brand != "" && standard !="" && purchase_price != "" && retail_price!=""){
+				if(!isNaN(purchase_price)){
+					if(!isNaN(retail_price)){
+						$.ajax({
+							url : "MedicineServlet",
+							data :{
+								id : id,
+								name : name,
+								acronym : acronym,
+								brand : brand,
+								standard : standard,
+								purchase_price : purchase_price,
+								retail_price : retail_price,
+								operation : "update"
+							},
+							type : "post",
+							dataType : "json",
+							async:false,
+							success : function(data){
+								alert(data.success);
+								$("#search").click();
+							}
+							
+						})
+					}else{
+						alert("进货价不是数字");
 					}
-					
-				})
+				}else{
+					alert("零售价不是数字");
+				}
+				
 			}else{
 				alert("请输入正确信息");
 			}

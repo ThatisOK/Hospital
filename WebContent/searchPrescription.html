@@ -308,13 +308,12 @@ form *{
 						<td>药品</td>
 						<td>厂家</td>
 						<td>规格</td>
-						<td>单价</td>
+						<td>零售价</td>
 						<td>数量</td>
 					</tr>
 			</table>
 			<div class="modal-button">
 				<button type="button" class="btn btn-primary" id="confirm" data-dismiss="modal">确定</button>
-				<button type="button" class="btn btn-primary" id="cancel" data-dismiss="modal">取消</button>
 			</div>
 	    </div>
 	  </div>
@@ -501,7 +500,7 @@ form *{
 				success : function(data){
 					$.each(data, function(i, n){
 						var tr = $('#medicinetable').find('tr').last();
-						tr.after("<tr><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['price']  + "</td><td>" +n['num']+ " </td></tr>");
+						tr.after("<tr><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['retailPrice']  + "</td><td>" +n['num']+ " </td></tr>");
 						});
 				}
 			})

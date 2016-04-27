@@ -78,8 +78,9 @@ public class MedicineServlet extends HttpServlet {
 				String acronym = request.getParameter("acronym").toUpperCase();
 				String brand = request.getParameter("brand");
 				String standard = request.getParameter("standard");
-				double price = Double.valueOf(request.getParameter("price"));
-				Medicine medicine = new Medicine(name, acronym, brand, standard, price);
+				double purchasePrice = Double.valueOf(request.getParameter("purchase_price"));
+				double retailPrice = Double.valueOf(request.getParameter("retail_price"));
+				Medicine medicine = new Medicine(name, acronym, brand, standard, purchasePrice, retailPrice);
 				md.addMedicine(medicine);
 				message.sendJson(response, 0, "添加成功");
 				break;
@@ -118,8 +119,9 @@ public class MedicineServlet extends HttpServlet {
 				String acronym = request.getParameter("acronym").toUpperCase();
 				String brand = request.getParameter("brand");
 				String standard = request.getParameter("standard");
-				double price = Double.valueOf(request.getParameter("price"));
-				Medicine m = new Medicine(id, name, acronym, brand, standard, price);
+				double purchasePrice = Double.valueOf(request.getParameter("purchase_price"));
+				double retailPrice = Double.valueOf(request.getParameter("retail_price"));
+				Medicine m = new Medicine(id, name, acronym, brand, standard, purchasePrice, retailPrice);
 				JSONObject state = null;
 				if(md.updateMedicine(m) > 0){
 					state = JSONObject.fromObject("{\"success\":\"更新成功\"}");

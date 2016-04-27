@@ -31,7 +31,8 @@ public class MedicineDao {
 				medicine.setName(rs.getString("name"));
 				medicine.setBrand(rs.getString("brand"));
 				medicine.setStandard(rs.getString("standard"));
-				medicine.setPrice(rs.getDouble("price"));
+				medicine.setPurchasePrice(rs.getDouble("purchase_price"));
+				medicine.setRetailPrice(rs.getDouble("retail_price"));
 				medicine.setAcronym(rs.getString("acronym"));
 				list.add(medicine);
 			}
@@ -56,7 +57,8 @@ public class MedicineDao {
 				medicine.setName(rs.getString("name"));
 				medicine.setBrand(rs.getString("brand"));
 				medicine.setStandard(rs.getString("standard"));
-				medicine.setPrice(rs.getDouble("price"));
+				medicine.setPurchasePrice(rs.getDouble("purchase_price"));
+				medicine.setRetailPrice(rs.getDouble("retail_price"));
 				medicine.setAcronym(rs.getString("acronym"));
 				list.add(medicine);
 			}
@@ -81,7 +83,8 @@ public class MedicineDao {
 				medicine.setName(rs.getString("name"));
 				medicine.setBrand(rs.getString("brand"));
 				medicine.setStandard(rs.getString("standard"));
-				medicine.setPrice(rs.getDouble("price"));
+				medicine.setPurchasePrice(rs.getDouble("purchase_price"));
+				medicine.setRetailPrice(rs.getDouble("retail_price"));
 			}
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -99,7 +102,7 @@ public class MedicineDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = "insert into medicine(name, brand, price, standard, acronym) values('"+m.getName()+"','"+m.getBrand()+"',"+m.getPrice()+",'"+m.getStandard()+"','"+m.getAcronym()+"')";
+			String sql = "insert into medicine(name, brand, purchase_price, retail_price, standard, acronym) values('"+m.getName()+"','"+m.getBrand()+"',"+m.getPurchasePrice()+","+m.getRetailPrice()+",'"+m.getStandard()+"','"+m.getAcronym()+"')";
 			stmt.execute(sql);
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -116,7 +119,7 @@ public class MedicineDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = "update medicine set name='"+m.getName()+"',brand='"+m.getBrand()+"',price="+m.getPrice()+",standard='"+m.getStandard()+"',acronym='"+m.getAcronym()+"' where id="+m.getId(); 
+			String sql = "update medicine set name='"+m.getName()+"',brand='"+m.getBrand()+"',purchase_price="+m.getPurchasePrice()+",retail_price="+m.getRetailPrice()+",standard='"+m.getStandard()+"',acronym='"+m.getAcronym()+"' where id="+m.getId(); 
 			num = stmt.executeUpdate(sql);
 			conn.close();
 			

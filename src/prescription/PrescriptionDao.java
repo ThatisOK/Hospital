@@ -113,10 +113,10 @@ public class PrescriptionDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = " select name, brand, price, standard, num from prescriptionMedicine p join medicine m on medicineId=m.id where prescriptionId='"+id+"'";
+			String sql = " select name, brand, retail_price, standard, num from prescriptionMedicine p join medicine m on medicineId=m.id where prescriptionId='"+id+"'";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()){
-				Medicine m = new Medicine(rs.getString("name"), rs.getString("brand"), rs.getString("standard"), rs.getDouble("price"), rs.getInt("num"));
+				Medicine m = new Medicine(rs.getString("name"), rs.getString("brand"), rs.getString("standard"), rs.getDouble("retail_price"), rs.getInt("num"));
 				list.add(m);
 			}	
 			conn.close();

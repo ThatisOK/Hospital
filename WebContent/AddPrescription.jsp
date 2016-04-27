@@ -296,7 +296,7 @@ body{
 							$('#myModal').modal('show');
 							$.each(data, function(i, n){
 								var tr = $('#jsontotable').find('tr').last();
-								tr.after("<tr><td><div class=\"checkbox\"><label><input type=\"checkbox\"  id="+ n["id"] +"></label></div>" +"</td><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td> " + n['standard'] + "</td><td> " + n['price'] + "</td></tr>");
+								tr.after("<tr><td><div class=\"checkbox\"><label><input type=\"checkbox\"  id="+ n["id"] +"></label></div>" +"</td><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td> " + n['standard'] + "</td><td> " + n['retailPrice'] + "</td></tr>");
 								});
 							
 						}
@@ -330,7 +330,7 @@ body{
 						$('#myModal').modal('show');
 						$.each(data, function(i, n){
 							var tr = $('#jsontotable').find('tr').last();
-							tr.after("<tr><td><div class=\"checkbox\"><label><input type=\"checkbox\" id="+ n["id"] +"></label></div>" +"</td><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td> " + n['standard'] + "</td><td> " + n['price'] + "</td></tr>");
+							tr.after("<tr><td><div class=\"checkbox\"><label><input type=\"checkbox\" id="+ n["id"] +"></label></div>" +"</td><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td> " + n['standard'] + "</td><td> " + n['retailPrice'] + "</td></tr>");
 							});
 						
 					}else{
@@ -364,8 +364,8 @@ body{
 				$.each(data, function(i, n){
 					var str = "<div class='num-box fl'><a href='javascript:;'id="+n['id']+" class='num-add fr'>+</a><a href='javascript:;' id="+n['id']+" class='num-cut fl num-lose'>-</a><span class='num-number'>1</span></div>";
 					var tr = $('#medicineTable').find('tr').last();
-					tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td id='price'> " + n['price'] + "</td><td> " + str + "</td><td><button type='button' class='btn btn-link' name="+n['id']+" id='deleteMedicine'>删除</button> </td></tr>");
-					sum += n['price']*1; 
+					tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td id='price'> " + n['retailPrice'] + "</td><td> " + str + "</td><td><button type='button' class='btn btn-link' name="+n['id']+" id='deleteMedicine'>删除</button> </td></tr>");
+					sum += n['retailPrice']*1; 
 				})
 				$("#sum").val(sum.toFixed(2));
 			}

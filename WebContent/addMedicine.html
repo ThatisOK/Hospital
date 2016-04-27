@@ -55,9 +55,15 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputEmail3" class="col-sm-3 control-label">单价</label>
+			<label for="inputEmail3" class="col-sm-3 control-label">进货价</label>
 			<div class="col-sm-9">
-				<input type="text" class="form-control" id="price">
+				<input type="text" class="form-control" id="purchase_price">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-3 control-label">零售价</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="retail_price">
 			</div>
 		</div>
 		<div class="form-group">
@@ -73,26 +79,37 @@
 			var acronym = $("#acronym").val().toUpperCase();
 			var brand = $("#brand").val();
 			var standard = $("#standard").val();
-			var price = $("#price").val();
-			if(name != "" && acronym != "" && brand != "" && standard !="" && price != ""){
-				$.ajax({
-					url : "MedicineServlet",
-					data :{
-						name : name,
-						acronym : acronym,
-						brand : brand,
-						standard : standard,
-						price : price,
-						operation : "add"
-					},
-					type : "post",
-					dataType : "json",
-					async:false,
-					success : function(data){
-						alert("添加成功");
+			var purchase_price = $("#purchase_price").val();
+			var retail_price = $("#retail_price").val();
+			if(name != "" && acronym != "" && brand != "" && standard !="" && purchase_price != "" && retail_price !=""){
+				if(!isNaN(purchase_price)){
+					if(!isNaN(retail_price)){
+						$.ajax({
+							url : "MedicineServlet",
+							data :{
+								name : name,
+								acronym : acronym,
+								brand : brand,
+								standard : standard,
+								purchase_price : purchase_price,
+								retail_price : retail_price,
+								operation : "add"
+							},
+							type : "post",
+							dataType : "json",
+							async:false,
+							success : function(data){
+								alert("添加成功");
+							}
+							
+						})
+					}else{
+						alert("零售价不是数字");
 					}
-					
-				})
+				}else{
+					alert("进货价不是数字");
+				}
+				
 			}else{
 				alert("请输入正确信息");
 			}

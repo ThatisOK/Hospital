@@ -7,45 +7,57 @@ public class Medicine {
 	private String acronym;
 	private String brand;
 	private String standard;
-	private double price;
+	private double purchasePrice;
+	private double retailPrice;
 	private int num;
 	
 	public Medicine() {}
 	
 	
 
-	public Medicine(int id, String name, String acronym, String brand, String standard, double price) {
+	public Medicine(int id, String name, String acronym, String brand, String standard, double purchasePrice, double retailPrice) {
 		this.id = id;
 		this.name = name;
 		this.acronym = acronym;
 		this.brand = brand;
 		this.standard = standard;
-		this.price = price;
+		this.purchasePrice = purchasePrice;
+		this.retailPrice = retailPrice;
 	}
 	
-	public Medicine(String name, String acronym, String brand, String standard, double price) {
+	public Medicine(String name, String acronym, String brand, String standard, double purchasePrice, double retailPrice) {
 		this.name = name;
 		this.acronym = acronym;
 		this.brand = brand;
 		this.standard = standard;
-		this.price = price;
+		this.purchasePrice = purchasePrice;
+		this.retailPrice = retailPrice;
 	}
 	
-	public Medicine(String name,String brand, String standard, double price) {
+	public Medicine(String name,String brand, String standard, double purchasePrice, double retailPrice) {
 		this.name = name;
 		this.brand = brand;
 		this.standard = standard;
-		this.price = price;
+		this.purchasePrice = purchasePrice;
+		this.retailPrice = retailPrice;
 	}
 	
-	public Medicine(String name,String brand, String standard, double price, int num) {
+	public Medicine(String name,String brand, String standard, double purchasePrice, double retailPrice, int num) {
 		this.name = name;
 		this.brand = brand;
 		this.standard = standard;
-		this.price = price;
+		this.purchasePrice = purchasePrice;
+		this.retailPrice = retailPrice;
 		this.num = num;
 	}
-
+	
+	public Medicine(String name, String brand, String standard, double retailPrice, int num){
+		this.name = name;
+		this.brand = brand;
+		this.standard = standard;
+		this.retailPrice = retailPrice;
+		this.num = num;
+	}
 	public int getId(){
 		return this.id;
 	}
@@ -95,12 +107,22 @@ public class Medicine {
 
 
 
-	public double getPrice() {
-		return price;
+	public double getPurchasePrice() {
+		return purchasePrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPurchasePrice(double purchasePrice) {
+		this.purchasePrice = purchasePrice;
+	}
+
+	public double getRetailPrice() {
+		return retailPrice;
+	}
+
+
+
+	public void setRetailPrice(double retailPrice) {
+		this.retailPrice = retailPrice;
 	}
 
 
