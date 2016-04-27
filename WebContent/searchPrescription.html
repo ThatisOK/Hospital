@@ -111,6 +111,12 @@ form *{
 	box-sizing: border-box;
 }
 
+.fade>.modal-dialog>.modal-content>.modal-body>.form-horizontal>.form-group>.col-sm-6>.form-control {
+    height: 20px;
+}
+/* .form-control{
+	height:20px;
+} */
 </style>
 
 <style type="text/css">
@@ -267,7 +273,7 @@ form *{
 				<div id="datepicker-calendar"></div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-primary btn-sm" >搜索</button>
+		<button type="button" class="btn btn-primary btn-sm" id="search" >搜索</button>
 	</form>
 	<div id="table">
 		<table class="table table-bordered" id="prescriptionTable">
@@ -282,6 +288,7 @@ form *{
 				<td>地址</td>
 				<td>医生</td>
 				<td>药品</td>
+				<td>编辑</td>
 				<td>删除</td>
 			</tr>
 		</table>
@@ -312,26 +319,105 @@ form *{
 	    </div>
 	  </div>
 	</div>
+	
+	<div class="modal fade " tabindex="-1" role="dialog" id="edit_modal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="modal-body">
+		        <form class="form-horizontal">	
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">性别</label>
+						<div class="col-sm-6">	
+						<input type="text" class="form-control" id="sex">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">年龄</label>
+						<div class="col-sm-6">	
+						<input type="text" class="form-control" id="age">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">诊断</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="dianose">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">过敏史</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="allergic">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">总价</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="sum">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">地址</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="address">
+						</div>
+					</div>
+					<div class="form-group" style="display:none">
+						<label for="inputEmail3" class="col-sm-2 control-label">ID</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="id">
+						</div>
+					</div>
+					<div class="form-group" style="display:none">
+						<label for="inputEmail3" class="col-sm-2 control-label">时间</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="time">
+						</div>
+					</div>
+					<div class="form-group" style="display:none">
+						<label for="inputEmail3" class="col-sm-2 control-label">医生ID</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="userid">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-3">
+					      <button  class="btn btn-primary" data-dismiss="modal" id="ok">确定</button>
+					    </div>
+					    <div class="col-sm-offset-1 col-sm-3">
+					      <button  class="btn btn-danger" data-dismiss="modal" id="cancel">取消</button>
+					    </div>
+					</div>
+				</form>
+		      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<script >
 		
-		$(".btn-primary").click(function(){
+		$("#search").click(function(){
 			var totalCounts = 0;
 			$('#prescriptionTable').find('tr').first().nextAll().remove();
 			var option = $("#select2-chosen-1").text();
 			var patient = $("#exampleInputName2").val();
 			var date = $("#date-range-field").children().first().html();
 			if(option=="病人"){
-				totalCounts = search(patient,"no", "1", 1, 6);
+				totalCounts = search(patient,"no", "1", 1, 10);
 			}else if(option=="日期"){
-				totalCounts = search("no",date, "2",1, 6);
+				totalCounts = search("no",date, "2",1, 10);
 			}else if(option=="病人和日期"){
-				totalCounts = search(patient, date, "3", 1, 6);
+				totalCounts = search(patient, date, "3", 1, 10);
 			}
 			$("#demo2").jqPaginator({
 				totalCounts: totalCounts,
-				pageSize: 6,
-		        visiblePages: 6,
+				pageSize: 10,
+		        visiblePages: 10,
 		        currentPage: 1,
 		        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
 		        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
@@ -340,11 +426,11 @@ form *{
 		       	page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 		        onPageChange: function (n) {
 		        	if(option=="病人"){
-						totalCounts = search(patient,"no", "1", n, 6);
+						totalCounts = search(patient,"no", "1", n, 10);
 					}else if(option=="日期"){
-						totalCounts = search("no",date, "2",n, 6);
+						totalCounts = search("no",date, "2",n, 10);
 					}else if(option=="病人和日期"){
-						totalCounts = search(patient, date, "3", n, 6);
+						totalCounts = search(patient, date, "3", n, 10);
 					}
 		        	}
 		        });
@@ -371,8 +457,8 @@ form *{
 					var list = data.list;
 					$.each(list, function(i, n){
 						var tr = $('#prescriptionTable').find('tr').last();
-						tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></tr>");
-						});
+						tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link edit' id="+n['id']+">编辑</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></tr>");
+					});
 					return totalCounts;
 				}
 			});
@@ -440,37 +526,86 @@ form *{
 				})
 			}
 		});
-		/* var totalCounts = 0;
-		$(document).ready(function(){
-			$.ajax({
-				url:"PrescriptionServlet",
-				data:{
-					operation:"getTotalCounts"
-				},
-				type:"post",
-				dataType:"json",
-				success:function(data){
-					totalCounts = data.totalCounts;
-					$("#demo2").jqPaginator({
-						totalCounts: totalCounts,
-						pageSize: 6,
-				        visiblePages: 6,
-				        currentPage: 1,
-				        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-				        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
-				        next: '<li class="next"><a href="javascript:void(0);">下一页<i class="arrow arrow3"><\/i><\/a><\/li>',
-				        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-				       	page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-				        onPageChange: function (n) {
-				        		pagingQuery(n, 6);
-				        	}
-				        });
-				}
-			});
-		}) */
-			　
 		
-
+		$('#table').on('click', '.edit', function() {
+			var id = $(this).attr("id");
+			$.ajax({
+				url : "PrescriptionServlet",
+				data : {
+					id : id,
+					operation :"edit" 
+				},
+				type : "post",
+				dataType : "json",
+				success : function(data){
+					$('#name').val(data['name']);
+					$('#sex').val(data['sex']);
+					$('#age').val(data['age']);
+					$('#dianose').val(data['dianose']);
+					$('#allergic').val(data['allergic']);
+					$('#sum').val(data['sum']);
+					$('#address').val(data['address']);
+					$('#id').val(data['id']);
+					$('#time').val(data['time']);
+					$('#userid').val(data['userid']);
+				}
+			})
+			$('#edit_modal').modal("show");
+			
+		});
+		
+		$('.form-horizontal').on('click', '#ok', function() {
+			var id = $('#id').val().trim();
+			var time = $('#time').val().trim();
+			var userid = $('#userid').val().trim();
+			var name = $('#name').val().trim();
+			var sex = $('#sex').val().trim();
+			var age = $('#age').val().trim();
+			var dianose = $('#dianose').val().trim();
+			var allergic = $('#allergic').val().trim();
+			var sum = $('#sum').val().trim();
+			var address = $('#address').val().trim();
+			if(name!="" && sex!="" && age != "" && dianose !="" && allergic!="" && sum!="" && address!=""){
+				if(!isNaN(age)){
+					if(!isNaN(sum)){
+						$.ajax({
+							url : "PrescriptionServlet",
+							data : {
+								id : id,
+								time:time,
+								userid:userid,
+								name:name,
+								sex:sex,
+								age:age,
+								dianose:dianose,
+								allergic:allergic,
+								sum:sum,
+								address:address,
+								operation :"update" 
+							},
+							type : "post",
+							dataType : "json",
+							success : function(data){
+								alert(data.errMsg);	
+								$("#search").trigger("click");
+							}
+							
+						})
+					}else{
+						alert("总价不是数字");
+					}
+					
+				}else{
+					alert("年龄不是数字");
+				}
+			}else{
+				alert("有空输入");
+			}
+			
+			
+		});
+		
+		
 	</script>
 </body>
 </html>

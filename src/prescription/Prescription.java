@@ -39,9 +39,24 @@ public class Prescription {
 		this.sum = sum;
 	}
 	
+	public Prescription(String id, String name, String sex, double age, String dianose, String time, int userid, String allergic, String address, double sum){
+		this.id = id;
+		this.name = name;
+		this.sex = sex;
+		this.age = age;
+		this.dianose = dianose;
+		this.time = time;
+		this.userid = userid;
+		this.allergic = allergic;
+		this.address = address;
+		this.sum = sum;
+	}
+	
 	public Prescription(){
 		
 	}
+	
+	
 	
 	public String getId() {
 		return id;

@@ -214,6 +214,54 @@ public class PrescriptionDao {
 		}
 		return result;
 	}
+	
+	public Prescription getPrescriptionById(String id){
+		Prescription p = new Prescription();
+		try {
+			Connection conn = this.getConn();
+			Statement stmt = conn.createStatement();
+			String sql = "select * from prescription where id = '"+ id +"'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()){
+				p.setId(id);
+				p.setName(rs.getString("name"));
+				p.setSex(rs.getString("sex"));
+				p.setAge(rs.getDouble("age"));
+				p.setDianose(rs.getString("dianose"));
+				p.setAllergic(rs.getString("allergic"));
+				p.setSum(rs.getDouble("sum"));
+				p.setAddress(rs.getString("address"));
+				p.setTime(rs.getString("time"));
+				p.setUserid(rs.getInt("userid"));
+			}
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return p;
+	}
+	
+	public int updatePrescription(Prescription p){
+		int result = 0;
+		try {
+			Connection conn = this.getConn();
+			Statement stmt = conn.createStatement();
+			String sql = "update prescription set name='"+p.getName()+"', sex='"+p.getSex()+"', age="+p.getAge()+", dianose='"+p.getDianose()+"', allergic = '"+p.getAllergic()+"', sum="+p.getSum()+", address='"+p.getAddress()+"' where id='"+p.getId()+"'";
+			result = stmt.executeUpdate(sql);
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 
 }

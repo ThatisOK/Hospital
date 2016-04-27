@@ -122,6 +122,28 @@ public class PrescriptionServlet extends HttpServlet {
 			message.sendJson(response, 0, "删除成功！");
 			break;
 		}
+		case "edit":{
+			String id = request.getParameter("id");
+			Prescription p = pd.getPrescriptionById(id);
+			JSONObject json = JSONObject.fromObject(p);
+			response.getWriter().write(json.toString());
+			break;
+		}
+		case "update":{
+			String id = request.getParameter("id");
+			String name = request.getParameter("name");
+			String sex = request.getParameter("sex");
+			double age = Double.valueOf(request.getParameter("age"));
+			String diagnose = request.getParameter("dianose");
+			String userid = request.getParameter("userid");
+			String allergic = request.getParameter("allergic");
+			String address = request.getParameter("address");
+			double sum = Double.valueOf(request.getParameter("sum"));
+			String time =  request.getParameter("time");
+			Prescription p = new Prescription(id, name, sex, age, diagnose,time,  Integer.valueOf(userid), allergic, address, sum);
+			int result = pd.updatePrescription(p);
+			message.sendJson(response, 0, "修改成功！");
+		}
 		}
 	}
 
