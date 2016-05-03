@@ -122,11 +122,17 @@ public class PrescriptionServlet extends HttpServlet {
 			message.sendJson(response, 0, "删除成功！");
 			break;
 		}
-		case "edit":{
+		case "get":{
 			String id = request.getParameter("id");
 			Prescription p = pd.getPrescriptionById(id);
+			ArrayList<Medicine> medicineList = pd.getPrescriptionMedicine(id);
+			JSONArray medicineJson = JSONArray.fromObject(medicineList);
 			JSONObject json = JSONObject.fromObject(p);
-			response.getWriter().write(json.toString());
+			JSONObject returnJson = new JSONObject();
+			returnJson.put("info", json);
+			returnJson.put("medicine", medicineJson);
+			System.out.println(returnJson);
+			response.getWriter().write(returnJson.toString());
 			break;
 		}
 		case "update":{
@@ -143,6 +149,13 @@ public class PrescriptionServlet extends HttpServlet {
 			Prescription p = new Prescription(id, name, sex, age, diagnose,time,  Integer.valueOf(userid), allergic, address, sum);
 			int result = pd.updatePrescription(p);
 			message.sendJson(response, 0, "修改成功！");
+			break;
+		}
+		case "monthSum":{
+			String date = request.getParameter("date");
+			String[] result= pd.getMonthSum(date).split("-");
+			JSONObject json = JSONObject.fromObject("{\"sum\":"+result[0]+";\"count\":"+result[1]+"}");
+			response.getWriter().write(json.toString());
 		}
 		}
 	}

@@ -278,6 +278,44 @@ body{
 	</div>
 </body>
 <script>
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) return unescape(r[2]); return null;
+	}
+	$(document).ready(function(){
+		var id = getQueryString("id");
+		$("#sum").val(0);
+		if(id != null){
+			$.ajax({
+				url : "PrescriptionServlet",
+				data : {
+					id : id,
+					operation :"get" 
+				},
+				type : "post",
+				dataType : "json",
+				success : function(data){
+					var medicine = data.medicine;
+					var info = data.info;
+					$('#name').val(info['name']);
+					$('#select').val(info['sex']);
+					$('#age').val(info['age']);
+					$('#diagnose').val(info['dianose']);
+					$('#allergic').val(info['allergic']);
+					$('#address').val(info['address']);
+					var sum = $("#sum").val()*1;
+					$.each(medicine, function(i, n){
+						var str = "<div class='num-box fl'><a href='javascript:;'id="+n['id']+" class='num-add fr'>+</a><a href='javascript:;' id="+n['id']+" class='num-cut fl num-lose'>-</a><span class='num-number'>1</span></div>";
+						var tr = $('#medicineTable').find('tr').last();
+						tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td id='price'> " + n['retailPrice'] + "</td><td> " + str + "</td><td><button type='button' class='btn btn-link' name="+n['id']+" id='deleteMedicine'>删除</button> </td></tr>");
+						sum += n['retailPrice']*1; 
+					})
+					$("#sum").val(sum.toFixed(2));
+				}
+			})
+		}
+	})
 	$("#medicine").bind('keypress',function(event){
 		if(event.keyCode == "13"){
 			$('#jsontotable').find('tr').first().nextAll().remove();

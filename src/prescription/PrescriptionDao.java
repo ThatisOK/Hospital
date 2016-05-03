@@ -113,10 +113,10 @@ public class PrescriptionDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = " select name, brand, retail_price, standard, num from prescriptionMedicine p join medicine m on medicineId=m.id where prescriptionId='"+id+"'";
+			String sql = " select m.id, name, brand, retail_price, standard, num from prescriptionMedicine p join medicine m on medicineId=m.id where prescriptionId='"+id+"'";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()){
-				Medicine m = new Medicine(rs.getString("name"), rs.getString("brand"), rs.getString("standard"), rs.getDouble("retail_price"), rs.getInt("num"));
+				Medicine m = new Medicine(rs.getInt("m.id"), rs.getString("name"), rs.getString("brand"), rs.getString("standard"), rs.getDouble("retail_price"), rs.getInt("num"));
 				list.add(m);
 			}	
 			conn.close();
@@ -262,6 +262,34 @@ public class PrescriptionDao {
 		}
 		return result;
 	}
+	
+	public String getMonthSum(String date){
+		double sum = 0;
+		int count = 0;
+		String from  = date + "-01";
+		String to = date + "-31";
+		try {
+			Connection conn = this.getConn();
+			Statement stmt = conn.createStatement();
+			String sql = "select sum(sum), count(*) from prescription where time>='"+from+"' and time <= '"+to+"'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()){
+				sum = rs.getDouble(1);
+				count = rs.getInt(2);
+			}		
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sum+"-"+count;
+	}
+
+	
+	
 
 
 }

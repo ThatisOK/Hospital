@@ -111,6 +111,7 @@ form *{
 	box-sizing: border-box;
 }
 
+
 .fade>.modal-dialog>.modal-content>.modal-body>.form-horizontal>.form-group>.col-sm-6>.form-control {
     height: 20px;
 }
@@ -250,6 +251,7 @@ form *{
     </script>
 </head>
 <body>
+	
 	<div id="container">
 	<form class="form-inline">
 		<div class="form-group">
@@ -400,6 +402,8 @@ form *{
 
 	<script >
 		
+		
+		
 		$("#search").click(function(){
 			var totalCounts = 0;
 			$('#prescriptionTable').find('tr').first().nextAll().remove();
@@ -456,7 +460,7 @@ form *{
 					var list = data.list;
 					$.each(list, function(i, n){
 						var tr = $('#prescriptionTable').find('tr').last();
-						tr.after("<tr id="+n['id']+"><td>"+ n['name'] + "</td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link edit' id="+n['id']+">编辑</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></tr>");
+						tr.after("<tr id='content'><td><button type='button' class='btn btn-link name' id="+n['id']+">"+n['name']+"</button></td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link edit' id="+n['id']+">编辑</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></td></tr>");
 					});
 					return totalCounts;
 				}
@@ -500,7 +504,7 @@ form *{
 				success : function(data){
 					$.each(data, function(i, n){
 						var tr = $('#medicinetable').find('tr').last();
-						tr.after("<tr><td>"+ n['name'] + "</td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['retailPrice']  + "</td><td>" +n['num']+ " </td></tr>");
+						tr.after("<tr id='content'><td><button type='button' class='btn btn-link name' id="+n['id']+">"+n['name']+"</button></td><td>" + n['brand'] + " </td><td>" + n['standard'] + " </td><td>" +n['retailPrice']  + "</td><td>" +n['num']+ " </td></tr>");
 						});
 				}
 			})
@@ -532,7 +536,7 @@ form *{
 				url : "PrescriptionServlet",
 				data : {
 					id : id,
-					operation :"edit" 
+					operation :"get" 
 				},
 				type : "post",
 				dataType : "json",
@@ -604,6 +608,10 @@ form *{
 			
 		});
 		
+		$('#table').on('click', '.name', function() {
+			var id = $(this).attr("id");
+			parent.location.href = "AddPrescription.jsp?id="+id;
+		})
 		
 	</script>
 </body>

@@ -51,7 +51,8 @@ public class Medicine {
 		this.num = num;
 	}
 	
-	public Medicine(String name, String brand, String standard, double retailPrice, int num){
+	public Medicine(int id,String name, String brand, String standard, double retailPrice, int num){
+		this.id = id;
 		this.name = name;
 		this.brand = brand;
 		this.standard = standard;

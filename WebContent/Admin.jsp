@@ -75,6 +75,9 @@ span{
 					<a class="menu-lv2"  data-event="nav" href="searchPrescription.html;" target="frame"><span>处方</span></a>
 				</dd>
 				<dd >
+					<a class="menu-lv2"  data-event="nav" href="monthSum.html;" target="frame"><span>月汇总</span></a>
+				</dd>
+				<dd >
 					<a class="menu-lv2"  data-event="nav" href="updatePassword.html;" target="frame"><span>修改密码</span></a>
 				</dd>
 				<dd >
