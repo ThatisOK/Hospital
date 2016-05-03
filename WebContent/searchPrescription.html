@@ -541,16 +541,17 @@ form *{
 				type : "post",
 				dataType : "json",
 				success : function(data){
-					$('#name').val(data['name']);
-					$('#sex').val(data['sex']);
-					$('#age').val(data['age']);
-					$('#dianose').val(data['dianose']);
-					$('#allergic').val(data['allergic']);
-					$('#sum').val(data['sum']);
-					$('#address').val(data['address']);
-					$('#id').val(data['id']);
-					$('#time').val(data['time']);
-					$('#userid').val(data['userid']);
+					var info = data.info;
+					$('#name').val(info['name']);
+					$('#sex').val(info['sex']);
+					$('#age').val(info['age']);
+					$('#dianose').val(info['dianose']);
+					$('#allergic').val(info['allergic']);
+					$('#sum').val(info['sum']);
+					$('#address').val(info['address']);
+					$('#id').val(info['id']);
+					$('#time').val(info['time']);
+					$('#userid').val(info['userid']);
 				}
 			})
 			$('#edit_modal').modal("show");

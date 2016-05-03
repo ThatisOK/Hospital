@@ -131,7 +131,6 @@ public class PrescriptionServlet extends HttpServlet {
 			JSONObject returnJson = new JSONObject();
 			returnJson.put("info", json);
 			returnJson.put("medicine", medicineJson);
-			System.out.println(returnJson);
 			response.getWriter().write(returnJson.toString());
 			break;
 		}
