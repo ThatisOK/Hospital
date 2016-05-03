@@ -300,6 +300,7 @@ body{
 					var info = data.info;
 					$('#name').val(info['name']);
 					$('#select').val(info['sex']);
+					$('.select2-chosen').text(info['sex']);
 					$('#age').val(info['age']);
 					$('#diagnose').val(info['dianose']);
 					$('#allergic').val(info['allergic']);
