@@ -118,6 +118,11 @@ form *{
 /* .form-control{
 	height:20px;
 } */
+
+#confirmPhoto{
+	margin-left: -100px;
+	width: 100px;
+}
 </style>
 
 <style type="text/css">
@@ -290,6 +295,7 @@ form *{
 				<td>地址</td>
 				<td>医生</td>
 				<td>药品</td>
+				<td>处方照</td>
 				<td>编辑</td>
 				<td>删除</td>
 			</tr>
@@ -315,7 +321,20 @@ form *{
 					</tr>
 			</table>
 			<div class="modal-button">
-				<button type="button" class="btn btn-primary" id="confirm" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-primary "  data-dismiss="modal">确定</button>
+			</div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="modal fade" id = "photoModal" tabindex="-1" role="dialog" >
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	     	<div class="modal-body">
+	     		<img src="" alt="" style="height:100%; width:100%" id = "photoImg">  
+      		</div>
+			<div class="modal-button">
+				<button type="button" class="btn btn-primary" id="confirmPhoto" data-dismiss="modal">确定</button>
 			</div>
 	    </div>
 	  </div>
@@ -460,7 +479,7 @@ form *{
 					var list = data.list;
 					$.each(list, function(i, n){
 						var tr = $('#prescriptionTable').find('tr').last();
-						tr.after("<tr id='content'><td><button type='button' class='btn btn-link name' id="+n['id']+">"+n['name']+"</button></td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link edit' id="+n['id']+">编辑</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></td></tr>");
+						tr.after("<tr id='content'><td><button type='button' class='btn btn-link name' id="+n['id']+">"+n['name']+"</button></td><td>" + n['sex'] + " </td><td>" + n['age'] + " </td><td>" +n['dianose']  + " </td><td>" +n['allergic']  + " </td><td>" +n['sum']  + " </td><td>" + $.trim(n['time'])+ " </td><td> " +n['address'] + "</td><td> " +n['doctor'] + "</td><td><button type='button' class='btn btn-link medicine' data-target='.bs-example-modal-lg' id="+n['id']+">药品</button></td><td><button type='button' class='btn btn-link photo' id="+n['id']+">处方照</button></td><td><button type='button' class='btn btn-link edit' id="+n['id']+">编辑</button></td><td><button type='button' class='btn btn-link delete' id="+n['id']+">删除</button></td></tr>");
 					});
 					return totalCounts;
 				}
@@ -509,6 +528,30 @@ form *{
 				}
 			})
 			$('.bs-example-modal-lg').modal("show");
+		});
+		
+		$('#table').on('click', '.photo', function() {
+			var id = $(this).attr("id");
+			$.ajax({
+				url : "PhotoServlet",
+				data : {
+					id : id,
+					operation :"get" 
+				},
+				type : "post",
+				dataType : "json",
+				success : function(data){
+					if(data['errno'] == 0){
+						$('#photoImg').attr('src', data['errMsg']);
+						$('#photoModal').modal("show");
+					}
+					else{
+						alert("没有处方照！");
+					}
+					
+				}
+			})
+			
 		});
 		
 		$('#table').on('click', '.delete', function() {

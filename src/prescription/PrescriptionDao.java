@@ -2,7 +2,6 @@ package prescription;
  
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 import medicine.Medicine;
 

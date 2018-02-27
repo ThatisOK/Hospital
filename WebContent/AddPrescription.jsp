@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,226 +16,257 @@
 <script src="static/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="static/css/css.css">
 <script type="text/javascript" src="static/js/quantity.js"></script>
+<!-- webcam插件引用 -->
+<script type="text/javascript" src="static/js/jquery.webcam.min.js"></script>
+<link rel="stylesheet" href="static/css/webcam.css">
 <style>
-body{ 
-	text-align:center
-	} 
-#medicineDiv{
-	margin:0 auto;
-	}
-
-#addUser{
-	position:relative;
-	left:-30px;
+body {
+	text-align: center
 }
 
-.select{
-	left: -80px;
-    position: relative;
-    top: -40px;
+#medicineDiv {
+	margin: 0 auto;
 }
 
-
-
-#select-label{
+#addUser {
 	position: relative;
-    left: -200px;
+	left: -30px;
+}
+
+.select {
+	left: -80px;
+	position: relative;
+	top: -40px;
+}
+
+#select-label {
+	position: relative;
+	left: -200px;
 }
 
 .form-control {
-    width: 120px;
-    height: 35px;
-
+	width: 120px;
+	height: 35px;
 }
-
 
 #name-label {
-    position: relative;
-    left: -80px;
+	position: relative;
+	left: -80px;
 }
+
 #name {
-    position: relative;
-    left: -130px;
-    width: 100px;
+	position: relative;
+	left: -130px;
+	width: 100px;
 }
 
 #sum-label {
-    left: 20px;
-    position: relative;
-    top: 1px;
+	left: 20px;
+	position: relative;
+	top: 1px;
 }
+
 #sum {
-    left: 30px;
-    position: relative;
-    height: 42px;
-    top: 1px;
+	left: 30px;
+	position: relative;
+	height: 42px;
+	top: 1px;
 }
-#medicine{
-	height:42px;
+
+#medicine {
+	height: 42px;
 }
-#sum{
- 	position: relative;
-    left: 15px;
-    width: 70px;
+
+#sum {
+	position: relative;
+	left: 15px;
+	width: 70px;
 }
 
 #age {
-    width: 60px;
-    position: relative;
-    left: -250px;
-}
-#ages {
-   	left: -250px;
-    position: relative;
+	width: 60px;
+	position: relative;
+	left: -250px;
 }
 
-#age_label{
+#ages {
+	left: -250px;
 	position: relative;
-    left: -200px;	
 }
-#diagnose-label{
+
+#age_label {
 	position: relative;
-    left: -280px;
+	left: -200px;
+}
+
+#diagnose-label {
+	position: relative;
+	left: -280px;
+}
+
+#diagnose {
+	position: relative;
+	left: -330px;
+}
+
+#allergic-label {
+	position: relative;
+	left: -250px;
+}
+
+#allergic {
+	left: -180px;
+	position: relative;
+	top: -40px;
+}
+
+#address {
+	left: -53px;
+	position: relative;
+	top: -39px;
+	width: 240px;
+}
+
+#address-label {
+	left: -113px;
+	position: relative;
+	top: 2px;
+}
+
+#signOut {
+	position: relative;
+	top: -3px;
+	left: 80px;
+}
+
+#medicineTable {
 	
 }
-#diagnose{
-	position: relative;
-    left: -330px;
 
-}
-#allergic-label {
-    position: relative;
-    left: -250px;
-}
-#allergic {
-    left: -180px;
-    position: relative;
-    top: -40px;
-}
-#address {
-    left: -53px;
-    position: relative;
-    top: -39px;
-    width: 240px;
-}
-#address-label {
-    left: -113px;
-    position: relative;
-    top: 2px;
-}
-#signOut {
-    position: relative;
-    top: -3px;
-    left: 80px;
-}
-
-#medicineTable{
-}
-.select2-choice{
+.select2-choice {
 	width: 100px;
-    position: relative;
-    left: -60px;
+	position: relative;
+	left: -60px;
 }
 
-.select2-display-none{
+.select2-display-none {
 	width: 100px !important;
 }
 
-.table > tbody > tr > td{
-    vertical-align: middle;
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+#photo{
+	width:200px;
 }
 </style>
 
 <title>新处方</title>
 </head>
 <body background="static/img/background.jpg">
-		<% 
+	<% 
 			String userid = "";
 	        if (session.getAttribute("userid") == null) {
 	    %>
-	    <script type="text/javascript">
+	<script type="text/javascript">
 			alert("您还没有登录，请登录...");
 			window.location.href = "SignIn.html";
 		</script>
-		<%
+	<%
 	        }else{
 				userid = (String) session.getAttribute("userid");	
 			}
 		%>
 	<form class="form-inline">
-	<input id="res" name="res" type="reset" style="display:none;" />  
-	<input type="hidden" class="form-control" id="userid" val=<%=userid %>>  
-	<div class="container-fluid" style="margin:3% 0 0 8%">
-		<div class="row">
-			<div class="col-md-1">
-				<label for="exampleInputName2" id="name-label">姓名：</label>
-			</div>
-			<div class="col-md-1">
-		    	<input type="text" class="form-control" id="name"  >
-			</div>
-			<div class="col-md-2">
-				<label for="exampleInputName2" id="select-label">性别：</label>
-				<select id="select" data-toggle="select" class=" select select-primary mrs mbm">
-			        <option id="m">男</option>
-			        <option id="d">女</option>
-		    	</select>
-			</div>
-			<div class="col-md-1">
-				<label for="exampleInputName2" id="age_label">年龄：</label>
-			</div>
-			<div class="col-md-1">
-	    		<input type="text" class="form-control" id="age" maxNum="100" >
-	    		<label for="exampleInputName2" id="ages">岁</label>
-			</div>
-			<div class="col-md-1">
-				<label for="exampleInputName2" id="diagnose-label">诊断：</label>
-			</div>
-			<div class="col-md-1">
-	    		<input type="text" class="form-control" id="diagnose" >
-			</div>
-			<div class="col-md-1">
-				<label for="exampleInputName2"  id="allergic-label">过敏史：</label>
-				<input type="text" class="form-control" id="allergic" >
-			</div>
-			<div class="col-md-1">
-	    		<label for="exampleInputName2"  id="address-label">地址：</label>
-				<input type="text" class="form-control" id="address" >
-			</div>
-			<div class="col-md-1">
-				<button type="button" class="btn btn-link"  id="signOut">退出</button>
+		<input id="res" name="res" type="reset" style="display: none;" /> <input
+			type="hidden" class="form-control" id="userid" val=<%=userid %>>
+		<div class="container-fluid" style="margin: 3% 0 0 8%">
+			<div class="row">
+				<div class="col-md-1">
+					<label for="exampleInputName2" id="name-label">姓名：</label>
+				</div>
+				<div class="col-md-1">
+					<input type="text" class="form-control" id="name">
+				</div>
+				<div class="col-md-2">
+					<label for="exampleInputName2" id="select-label">性别：</label> <select
+						id="select" data-toggle="select"
+						class=" select select-primary mrs mbm">
+						<option id="m">男</option>
+						<option id="d">女</option>
+					</select>
+				</div>
+				<div class="col-md-1">
+					<label for="exampleInputName2" id="age_label">年龄：</label>
+				</div>
+				<div class="col-md-1">
+					<input type="text" class="form-control" id="age" maxNum="100">
+					<label for="exampleInputName2" id="ages">岁</label>
+				</div>
+				<div class="col-md-1">
+					<label for="exampleInputName2" id="diagnose-label">诊断：</label>
+				</div>
+				<div class="col-md-1">
+					<input type="text" class="form-control" id="diagnose">
+				</div>
+				<div class="col-md-1">
+					<label for="exampleInputName2" id="allergic-label">过敏史：</label> <input
+						type="text" class="form-control" id="allergic">
+				</div>
+				<div class="col-md-1">
+					<label for="exampleInputName2" id="address-label">地址：</label> <input
+						type="text" class="form-control" id="address">
+				</div>
+				<div class="col-md-1">
+					<button type="button" class="btn btn-link" id="signOut">退出</button>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<table class="table table-bordered" id="medicineTable">
-		<tr>
-			<td>药品</td>
-			<td>厂家</td>
-			<td>规格</td>
-			<td>单价</td>
-			<td>数量</td>
-			<td>操作</td>
-		</tr>
-	</table>
-	<div id="medicineDiv">
-		
-		<div class="input-group">
-			<input class="form-control" id="medicine" type="search" placeholder="搜索药品"> 
-			<span class="input-group-btn">
-				<button type=button class="btn" id="search">
-					<span class="fui-search"></span>
-				</button>
-			</span>
-		</div>	
-		<button type="button" class="btn btn-primary" id="complete">完成</button>
-		<label for="exampleInputName2"  id="sum-label">总价：</label>
-		<input type="text" class="form-control" id="sum" placeholder="0.0元">
-	</div>
-	</form>	
-	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-		  <div class="modal-dialog modal-lg">
-		   <div class="modal-content" id="jsontotable">
-			   	<table class="table table-bordered" >
+
+		<table class="table table-bordered" id="medicineTable">
+			<tr>
+				<td>药品</td>
+				<td>厂家</td>
+				<td>规格</td>
+				<td>单价</td>
+				<td>数量</td>
+				<td>操作</td>
+			</tr>
+		</table>
+		<div id="medicineDiv">
+
+			<div class="input-group">
+				<input class="form-control" id="medicine" type="search" placeholder="搜索药品"> <span class="input-group-btn">
+					<button type=button class="btn" id="search">
+						<span class="fui-search"></span>
+					</button>
+				</span>
+			</div>
+			<button type="button" class="btn btn-primary" id="complete">完成</button>
+			<label for="exampleInputName2" id="sum-label">总价：</label> <input
+				type="text" class="form-control" id="sum" placeholder="0.0元">
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div id="webcam">
+					<img src="static/img/antenna.png" alt="">
+					<img id="base64image" src='' />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<canvas id="canvas" width="320" height="240"></canvas>
+			</div>
+		</div>
+		<p>
+			<button type="button" class="btn btn-primary btn-lg" id="photo">拍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;照</button>
+		</p>
+	</form>
+	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" id="myModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" id="jsontotable">
+				<table class="table table-bordered">
 					<tr id="header">
 						<td>选择</td>
 						<td>药品</td>
@@ -244,37 +275,42 @@ body{
 						<td>单价</td>
 					</tr>
 				</table>
-			   	<button type="button" class="btn btn-primary" id="confirm" data-dismiss="modal">确定</button>
-			   	<button type="button" class="btn btn-primary" id="cancel" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="confirm"
+					data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-primary" id="cancel"
+					data-dismiss="modal">取消</button>
 			</div>
-		  </div>
+		</div>
 	</div>
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-		  <div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		      <div class="modal-body">
-        		<form class="form-horizontal">
-					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-3 control-label">姓名</label>
-					    <div class="col-sm-9">
-					      <input type="text" class="form-control" id="inputNewName" placeholder="姓名">
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="inputPassword3" class="col-sm-3 control-label">密码</label>
-					    <div class="col-sm-9">
-					      <input type="text" class="form-control" id="inputNewPassword" placeholder="密码">
-					    </div>
-					  </div>
-				</form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" id="ok">确定</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-		      </div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-3 control-label">姓名</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="inputNewName"
+									placeholder="姓名">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword3" class="col-sm-3 control-label">密码</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="inputNewPassword"
+									placeholder="密码">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="ok">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
 
-		    </div>
-	  	</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script>
@@ -572,6 +608,115 @@ body{
 			$(this).parent().parent().remove();
 		}
 	})
+	
+	var pos = 0,
+    	ctx = null,
+        image = [];
+    var w = 320;
+    var h = 240;
+    $(document).ready(function() {
+    	jQuery("#webcam").webcam({
+        	width: w,
+            height: h,
+           	mode: "callback",
+            swffile: "static/swf/jscam_canvas_only.swf", // 这里引入swf文件，注意路径
+            onTick: function(remain) {},
+            onSave: function(data) {
+            	var col = data.split(";");
+                var img = image;
+               	for(var i = 0; i < 320; i++) {
+                	var tmp = parseInt(col[i]);
+                    img.data[pos + 0] = (tmp >> 16) & 0xff;
+                    img.data[pos + 1] = (tmp >> 8) & 0xff;
+                    img.data[pos + 2] = tmp & 0xff;
+                    img.data[pos + 3] = 0xff;
+                    pos += 4;
+               	}
+               	if(pos >= 4 * 320 * 240) {
+	                // 将图片显示到canvas中
+	                ctx.putImageData(img, 0, 0);
+	                $.ajax({
+            			url : "PrescriptionServlet",
+            			data : {
+            				operation:"upload",
+            				w : w,
+            				h : h,
+            				image:canvas.toDataURL("image/png")
+            			},
+            			type : 'post',
+            			dataType : 'json',
+            			success : function(data) {
+            				pos = 0;
+                            //console.log("upload success");
+                            console.log(data['errno']);
+            			}
+            			
+            		})
+	                // 取得图片的base64码
+	               	//var base64 = canvas.toDataURL("image/png");                    
+	                // 将图片base64码设置给img
+	                //var base64image = document.getElementById('base64image');                                                              
+	                //base64image.setAttribute('src', base64);
+	                pos = 0;
+                }
+               	image.push(data);
+                pos += 4 * w;
+                if (pos == 4 * w * h) {
+                	$.ajax({
+            			url : "PrescriptionServlet",
+            			data : {
+            				w : w,
+            				h : h,
+            				pix:image.join('|')
+            			},
+            			type : 'post',
+            			dataType : 'json',
+            			success : function(data) {
+            				pos = 0;
+                            image = new Array();
+                            $("#img").attr("src",msg);
+            			}
+            		})
+                    $.post("PrescriptionServlet",
+                        { w: w, h: h, pix: image.join('|') },
+                        function (msg) {
+                            pos = 0;
+                            image = new Array();
+                            $("#img").attr("src",msg);
+                        });
+                }
+            },
+            onCapture: function() {
+            	webcam.save();
+            	// Show a flash for example
+           	},
+            debug: function(type, string) {
+            	//console.log('type:' + type + ',string:' + string);
+				// Write debug information to console.log() or a div
+            },
+
+            onLoad: function() {
+			// Page load
+            }
+       	});
+        window.addEventListener("load", function() {
+	        var canvas = document.getElementById("canvas");
+	        if(canvas.getContext) {
+		        ctx = canvas.getContext("2d");
+		        ctx.clearRect(0, 0, 320, 240);
+				var img = new Image();
+		        img.onload = function() {
+		        	ctx.drawImage(img, 129, 89);
+		        }
+		        image = ctx.getImageData(0, 0, 320, 240);
+	         }
+
+         }, false);
+
+         $('#photo').on('click', function() {
+         	webcam.capture();
+         });
+     });
 	
 </script>
 </html>
