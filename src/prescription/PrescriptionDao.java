@@ -46,7 +46,7 @@ public class PrescriptionDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = " select * from prescription p join user u on p.userid=u.id where name like '"+patient+"%' and p.id >=(select id from prescription where name like '"+patient+"%' order by id asc limit "+(page-1)*pageSize+" , 1) order by p.id asc limit "+pageSize;
+			String sql = " select * from prescription p join user u on p.userid=u.id where name like '"+patient+"%' order by p.id asc limit "+ (page - 1) * pageSize + "," +pageSize;
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()){
 				Prescription p = new Prescription(rs.getString("id"),rs.getString("name"), rs.getString("sex"), rs.getDouble("age"),rs.getString("dianose"), rs.getString("time").trim(), rs.getString("username"), rs.getString("allergic"), rs.getString("address"), rs.getDouble("sum"));
@@ -68,7 +68,8 @@ public class PrescriptionDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = " select * from prescription p join user u on p.userid=u.id where p.time>='"+from+"' and p.time<= '"+to+"' and p.id >=(select id from prescription where p.time>='"+from+"' and p.time<= '"+to+"' order by id asc limit "+(page-1)*pageSize+", 1) order by p.id asc limit "+pageSize;
+			//String sql = " select * from prescription p join user u on p.userid=u.id where p.time>='"+from+"' and p.time<= '"+to+"' and p.id >=(select id from prescription where p.time>='"+from+"' and p.time<= '"+to+"' order by id asc limit "+(page-1)*pageSize+", 1) order by p.id asc limit "+pageSize;
+			String sql = "select * from prescription p join user u on p.userid=u.id where p.time>='"+from+"' and p.time<= '"+to+"' order by p.id asc limit "+ (page - 1) * pageSize + "," +pageSize ;
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()){
 				Prescription p = new Prescription(rs.getString("id"),rs.getString("name"), rs.getString("sex"), rs.getDouble("age"),rs.getString("dianose"), rs.getString("time").trim(), rs.getString("username"), rs.getString("allergic"), rs.getString("address"), rs.getDouble("sum") );
@@ -90,7 +91,7 @@ public class PrescriptionDao {
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
-			String sql = " select * from prescription p join user u on p.userid=u.id where p.time>='"+from+"' and p.time<= '"+to+"' and name like'"+patient+"%' and p.id >=(select id from prescription where p.time>='"+from+"' and p.time<= '"+to+"' and name like '"+patient+"%' order by id asc limit "+(page-1)*pageSize+" , 1) order by p.id asc limit "+pageSize;
+			String sql = " select * from prescription p join user u on p.userid=u.id where p.time>='"+from+"' and p.time<= '"+to+"' and name like'"+patient+"%' order by p.id asc limit " + (page - 1) * pageSize + "," +pageSize;
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()){
 				Prescription p = new Prescription(rs.getString("id"),rs.getString("name"), rs.getString("sex"), rs.getDouble("age"),rs.getString("dianose"), rs.getString("time").trim(), rs.getString("username"), rs.getString("allergic"), rs.getString("address"), rs.getDouble("sum") );
