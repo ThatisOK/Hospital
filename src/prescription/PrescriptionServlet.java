@@ -71,8 +71,14 @@ public class PrescriptionServlet extends HttpServlet {
 			String allergic = request.getParameter("allergic");
 			String address = request.getParameter("address");
 			String medicine_list = request.getParameter("medicine_list");
-			double sum = Double.valueOf(request.getParameter("sum"));
-			Prescription p = new Prescription(prescriptionNum, name, sex, age, diagnose, Integer.valueOf(userid), allergic, address, sum);
+			if (medicine_list.isEmpty()) {
+				medicine_list = "";
+			}
+			String sum = request.getParameter("sum");
+			if (sum.isEmpty()) {
+				sum = "";
+			}
+			Prescription p = new Prescription(prescriptionNum, name, sex, age, diagnose, Integer.valueOf(userid), allergic, address, Double.valueOf(sum));
 			pd.addPrescription(p, medicine_list);
 			Object photoPath = session.getAttribute("photoPath");
 			if (photoPath != null) {

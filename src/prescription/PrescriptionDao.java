@@ -16,19 +16,24 @@ public class PrescriptionDao {
 	}
 	
 	public void addPrescription(Prescription p, String medicine){
-		String[] list = medicine.split(":");
-		int length = list.length;
-		String[] queries = new String[length/2];
-		for(int i=0; i<length; i=i+2){
-			queries[i/2] = "insert into prescriptionMedicine(prescriptionId, medicineId, num) values('"+p.getId()+"',"+list[i]+","+list[i+1]+")";
+		String[] queries = null;
+		if (!medicine.isEmpty()) {
+			String[] list = medicine.split(":");
+			int length = list.length;
+			queries = new String[length/2];
+			for(int i=0; i<length; i=i+2){
+				queries[i/2] = "insert into prescriptionMedicine(prescriptionId, medicineId, num) values('"+p.getId()+"',"+list[i]+","+list[i+1]+")";
+			}
 		}
 		try {
 			Connection conn = this.getConn();
 			Statement stmt = conn.createStatement();
 			String sql = "insert into prescription(id,name,sex,age,dianose,userid, allergic, sum, address) values('"+p.getId()+"','"+p.getName()+"','"+p.getSex()+"',"+p.getAge()+",'"+p.getDianose()+"',"+p.getUserid()+",'"+p.getAllergic()+"',"+p.getSum()+", '"+p.getAddress()+"')";
 			stmt.execute(sql);
-			for(String query : queries){
-				stmt.addBatch(query);
+			if (queries != null) {
+				for(String query : queries){
+					stmt.addBatch(query);
+				}
 			}
 			stmt.executeBatch();
 			conn.close();
