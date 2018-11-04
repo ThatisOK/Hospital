@@ -74,9 +74,13 @@ public class PrescriptionServlet extends HttpServlet {
 			double sum = Double.valueOf(request.getParameter("sum"));
 			Prescription p = new Prescription(prescriptionNum, name, sex, age, diagnose, Integer.valueOf(userid), allergic, address, sum);
 			pd.addPrescription(p, medicine_list);
-			Photo photo = new Photo(session.getAttribute("photoPath").toString(), prescriptionNum);
-			photoDao.addPhoto(photo);
-			session.removeAttribute("photoPath");
+			Object photoPath = session.getAttribute("photoPath");
+			if (photoPath != null) {
+				photoPath = photoPath.toString();
+				Photo photo = new Photo(session.getAttribute("photoPath").toString(), prescriptionNum);
+				photoDao.addPhoto(photo);
+				session.removeAttribute("photoPath");
+			}
 			JSONObject error = JSONObject.fromObject("{\"state\":\"success\"}");
 			response.getWriter().write(error.toString());
 			break;
