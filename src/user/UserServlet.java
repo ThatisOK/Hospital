@@ -49,6 +49,10 @@ public class UserServlet extends HttpServlet {
 		String operation = request.getParameter("operation");
 		HttpSession session = request.getSession();
 		Message msg = new Message();
+		if (operation == null) {
+			msg.sendJson(response, -1, "failure");
+			return;
+		}
 		UserDao ud = new UserDao();
 		switch (operation) {
 			case "signIn": {

@@ -160,6 +160,11 @@ body {
 #photo{
 	width:200px;
 }
+body {
+	background:url("static/img/background.jpg");
+  	background-size: 100%;
+	background-repeat:no-repeat ;
+}
 </style>
 
 <title>新处方</title>

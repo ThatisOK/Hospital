@@ -46,10 +46,11 @@ public class PhotoServlet extends HttpServlet {
 		case "get": {
 			String prescriptionID = request.getParameter("id");
 			String photoPath = pd.getPhotoPath(prescriptionID);
-			if(photoPath == "")
+			if(photoPath == "") {
 				message.sendJson(response, -1, photoPath);
-			else
+			}	else {
 				message.sendJson(response, 0, photoPath);
+			}
 			break;
 		}
 		

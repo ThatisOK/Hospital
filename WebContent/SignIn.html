@@ -6,136 +6,80 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="l" content="width=device-width, initial-scale=1">
 <title>Login</title>
-<!-- 新 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="static/css/bootstrap.min.css">
-
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="static/js/jquery.min.js"></script>
-<script src="static/js/jQuery.md5.js"></script>
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="static/js/bootstrap.min.js"></script>
-
+<link rel="stylesheet" href="static/layui/css/layui.css">
+<script src="static/layui/layui.js"></script>
+<script src="static/js/md5.js"></script>
 <style type="text/css">
-.form-control {
-	width: 200px;
+body {
+	background: url("static/img/bg.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
-.user-item-error  {
-    display: none;
-    float: left;
-    position: absolute;
-    width: 250px;
-    top: 185px;
-    left: 760px;
-    margin-left:10px;
-    color: #fc4343;
-    height: 16px;
-    line-height: 14px;
-    padding-left: 20px;
+.layui-container {
+	margin: 12% 0% 0% 36%;
 }
-.pass-item-error{
-    display: none;
-    float: left;
-    position: absolute;
-    width: 250px;
-    top: 235px;
-    left: 760px;
-    margin-left:10px;
-    color: #fc4343;
-    height: 16px;
-    line-height: 14px;
-    padding-left: 20px;
+
+.layui-input {
+	width: 200px;
 }
 </style>
 
 </head>
-<body background="static/img/bg.jpg">
-	<div class="row">
-		<div class=" col-md-11"></div>
-		<div class=" col-md-1">
-			<button type="submit" class="btn btn-link" id="signUp">注册</button>
-		</div>
+<body>
+	<div class="layui-container">
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="username" required lay-verify="required"
+						placeholder="请输入用户名" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码</label>
+				<div class="layui-input-inline">
+					<input type="password" name="password" required
+						lay-verify="required" placeholder="请输入密码" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="signin">登录</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
 	</div>
-	<div class="form-horizontal"
-		style="width: 600px; margin: 10% 10% 0 40%;">
-		<div class="form-group">
-			<!-- <label for="inputEmail3" class="col-sm-2 control-label">Username</label> -->
-			<div class="col-sm-10">
-				<input type="text" class="form-control" name="username"
-					placeholder="Username" id="username" style="background:transparent" data-toggle="popover" data-trigger="focus" data-html=true data-content="请输入名称">
-			</div>
-		</div>
-		<div class="form-group">
-			<!-- <label for="inputPassword3" class="col-sm-2 control-label">Password</label> -->
-			<div class="col-sm-10">
-				<input type="password" class="form-control" name="password"
-					placeholder="Password" id="password" style="background:transparent" data-toggle="popover" data-trigger="focus"  data-html=true data-content="请输入密码">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class=" col-sm-10">
-				<button type="submit" class="btn btn-primary btn-block" id="signIn"
-					style="width: 200px">登陆</button>
-			</div>
-		</div>
-	</div>
-	<span class='user-item-error'>请您输入手机/邮箱</span>
-	<span class='pass-item-error'>请输入密码</span>
-<script>
-
-$("#signIn").click(function() {
-	var username = $("#username").val();
-	var password = $("#password").val();
-	if (username == ""){
-		$(".user-item-error").css("display", "block");	
-	}
-	if(password == ""){
-		$(".pass-item-error").css("display", "block");
-	}
-	else{
-		passwordMd5 = $.md5(password);
-		$.ajax({
-			url : "UserServlet",
-			data : {
-				username : username,
-				password : passwordMd5,
-				operation : "signIn"
-			},
-			type : 'post',
-			dataType : 'json',
-			success : function(data) {
-				if (data.errno == 0)
-					window.location.href = "Admin.jsp";
-				else if (data.errno == 1)
-					window.location.href = "AddPrescription.jsp";
-				else
-					$("#signIn").text("用户名或密码错误");
-			}
-
-		});
-	}
-})
-
-$("#signUp").click(function(){
-	window.location.href = "SignUp.html";
-})
-
-$("input").click(function(){
-	$(this).popover("show");
-			
-})
-
-$("#username").click(function(){
-	$(".user-item-error").css("display", "none");
-})
-
-$("#password").click(function(){
-	$(".pass-item-error").css("display", "none");
-})
-
-
-</script>
-
 </body>
+<script>
+	layui.use([ 'form', 'jquery' ], function() {
+		var form = layui.form;
+		var $ = layui.jquery;
+		form.on('submit(signin)', function(data) {
+			var password = data.field.password;
+			var passwordMd5 = md5(password);
+			data.field.password = passwordMd5;
+			data.field.operation = 'signIn';
+			$.ajax({
+				url : "UserServlet",
+				data : data.field,
+				type : 'post',
+				dataType : 'json',
+				success : function(json_data) {
+					if (json_data.errno == 0) {
+						window.location.href = "Admin.jsp";
+					} else if (json_data.errno == 1) {
+						window.location.href = "AddPrescription.jsp";
+					} else {
+						layer.msg("用户名或密码错误");
+					}
+				}
+
+			});
+			return false;
+		});
+	});
+</script>
 </html>
