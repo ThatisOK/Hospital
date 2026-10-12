@@ -1,1 +1,11 @@
 /build/
+desktop/node_modules/
+desktop/dist/
+desktop/ui/
+desktop/release/
+desktop/.builder-cache/
+desktop/test-results/
+*.sqlite
+*.sqlite-*
+*.clinic-backup
+legacy-export*.json
